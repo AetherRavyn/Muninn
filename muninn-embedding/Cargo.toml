@@ -1,0 +1,17 @@
+[package]
+name = "muninn-embedding"
+version = "0.1.0"
+edition = "2021"
+description = "Embedding provider implementations for Muninn"
+
+[dependencies]
+muninn-core = { path = "../muninn-core" }
+async-trait = "0.1"
+reqwest = { version = "0.12", features = ["json"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+thiserror = "2"
+# 1788294676
+// commit 16 1788294953923714670
