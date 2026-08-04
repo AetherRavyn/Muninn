@@ -1,0 +1,26 @@
+[package]
+name = "muninn-loadtest"
+version = "0.1.0"
+edition = "2021"
+description = "Load testing harness for Muninn"
+
+[[bin]]
+name = "muninn-loadtest"
+path = "src/main.rs"
+
+[dependencies]
+muninn-core = { path = "../muninn-core" }
+muninn-storage = { path = "../muninn-storage" }
+muninn-embedding = { path = "../muninn-embedding" }
+tokio = { version = "1", features = ["full"] }
+clap = { version = "4", features = ["derive"] }
+indicatif = "0.17"
+rand = "0.8"
+crossbeam-channel = "0.5"
+hdrhistogram = "7"
+tempfile = "3"
+chrono = "0.4"
+uuid = { version = "1", features = ["v4"] }
+parking_lot = "0.12"
+# 1788294677
+// commit 19 1788294953970719050
