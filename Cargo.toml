@@ -1,0 +1,14 @@
+[workspace]
+resolver = "2"
+members = [
+    "muninn-core",
+    "muninn-storage",
+    "muninn-embedding",
+    "muninn-api",
+    "muninn-consolidator",
+    "muninn-server",
+    "muninn-loadtest",
+    "muninn-grpc",
+    "muninn-benchmarks",
+]
+// commit 49 1788294954403969464
