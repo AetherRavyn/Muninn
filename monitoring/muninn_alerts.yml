@@ -1,0 +1,102 @@
+# Muninn Alert Rules for Prometheus
+groups:
+  - name: muninn_alerts
+    rules:
+      # SLO: Cold recall latency
+      - alert: MuninnReadLatencyHigh
+        expr: histogram_quantile(0.99, muninn_read_latency_seconds_bucket) > 0.02
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Muninn read latency p99 exceeds 20ms"
+          description: "Current p99: {{ $value }}s"
+
+      # SLO: Write latency
+      - alert: MuninnWriteLatencyHigh
+        expr: histogram_quantile(0.99, muninn_write_latency_seconds_bucket) > 0.001
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Muninn write latency p99 exceeds 1ms"
+          description: "Current p99: {{ $value }}s"
+
+      # Availability
+      - alert: MuninnAvailabilityLow
+        expr: muninn_requests_total / (muninn_requests_total + muninn_errors_total) < 0.999
+        for: 1h
+        labels:
+          severity: critical
+        annotations:
+          summary: "Muninn availability below 99.9%"
+          description: "Current availability: {{ $value | humanizePercentage }}"
+
+      # WAL replica lag
+      - alert: MuninnWalReplicaLagHigh
+        expr: muninn_wal_replica_lag_bytes > 10485760
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "WAL replica lag exceeds 10MB"
+          description: "Current lag: {{ $value }} bytes"
+
+      # Consolidation backlog
+      - alert: MuninnConsolidationBacklog
+        expr: muninn_consolidation_queue_depth > 1000
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Consolidation queue depth exceeds 1000"
+          description: "Current depth: {{ $value }}"
+
+      # Disk space
+      - alert: MuninnDiskSpaceLow
+        expr: node_filesystem_avail_bytes{mountpoint="/data"} / node_filesystem_size_bytes{mountpoint="/data"} < 0.2
+        for: 30m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Muninn disk space below 20%"
+          description: "Current free: {{ $value | humanizePercentage }}"
+
+      # Memory poisoning anomaly
+      - alert: MuninnAnomalyDetected
+        expr: muninn_anomalies_total > 0
+        for: 0m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Memory anomaly detected"
+          description: "Review audit logs immediately"
+
+      # Embedding provider outage
+      - alert: MuninnEmbeddingProviderDown
+        expr: muninn_embedding_provider_healthy == 0
+        for: 2m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Embedding provider is down"
+          description: "Writes are being queued for async backfill"
+
+      # Shard health
+      - alert: MuninnShardUnhealthy
+        expr: muninn_shard_healthy == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Muninn shard is unhealthy"
+          description: "Shard {{ $labels.shard_id }} is not healthy"
+# 1788294677
+# 1788294677
+# 1788294677
+# 1788294677
+# 1788294677
+# 1788294677
+# 1788294677
+# 1788294677
+// commit 24 1788294954043518922
