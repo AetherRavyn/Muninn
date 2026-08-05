@@ -1,0 +1,9 @@
+/target
+/data
+*.log
+*.swp
+*.swo
+*~
+.env
+.env.local
+// commit 25 1788294954057312454
