@@ -1,0 +1,16 @@
+[package]
+name = "muninn-consolidator"
+version = "0.1.0"
+edition = "2021"
+description = "Memory consolidation pipeline for distilling episodic into semantic memory"
+
+[dependencies]
+muninn-core = { path = "../muninn-core" }
+async-trait = "0.1"
+tokio = { version = "1", features = ["full"] }
+tracing = "0.1"
+uuid = { version = "1", features = ["v4"] }
+chrono = { version = "0.4", features = ["serde"] }
+parking_lot = "0.12"
+# 1788294676
+// commit 42 1788294954304883057
