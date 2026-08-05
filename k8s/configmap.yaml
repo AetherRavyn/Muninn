@@ -1,0 +1,60 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: muninn-config
+  labels:
+    app: muninn
+data:
+  muninn.toml: |
+    [server]
+    grpc_port = 50051
+    rest_port = 3000
+    request_timeout_ms = 30000
+
+    [storage]
+    data_dir = "/app/data"
+    wal_dir = "/app/data/wal"
+    snapshot_dir = "/app/data/snapshots"
+    shard_count = 1
+    max_wal_size_bytes = 104857600
+    checkpoint_interval_secs = 300
+
+    [retrieval]
+    max_results = 10
+    min_score = 0.1
+    index_algorithm = "Hnsw"
+
+    [retrieval.default_weights]
+    weight_relevance = 0.5
+    weight_recency = 0.2
+    weight_importance = 0.2
+    weight_keyword = 0.1
+    decay_rate = 0.01
+
+    [security]
+    require_tls = true
+    api_key_header = "X-Api-Key"
+    tenant_isolation_strict = true
+    audit_log_enabled = true
+
+    [consolidation]
+    enabled = true
+    interval_secs = 60
+    batch_size = 100
+    quarantine_trust_tier = true
+    anomaly_detection_enabled = true
+
+    [embedding]
+    provider = "openai"
+    model = "text-embedding-3-small"
+    dimension = 1536
+    batch_size = 32
+    timeout_ms = 10000
+
+    [observability]
+    log_level = "info"
+    metrics_port = 9090
+    health_port = 8080
+# 1788294677
+# 1788294677
+// commit 23 1788294954028990695
