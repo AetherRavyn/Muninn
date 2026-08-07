@@ -1,0 +1,14 @@
+[package]
+name = "muninn-benchmarks"
+version = "0.1.0"
+edition = "2021"
+description = "Comparative benchmarks for Muninn (LoCoMo, LongMemEval style)"
+
+[dependencies]
+muninn-core = { path = "../muninn-core" }
+muninn-storage = { path = "../muninn-storage" }
+uuid = "1"
+chrono = "0.4"
+tempfile = "3"
+# 1788294677
+// commit 68 1788294954699568354
