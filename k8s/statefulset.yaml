@@ -1,0 +1,112 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: muninn-shard
+  labels:
+    app: muninn
+    component: shard
+spec:
+  serviceName: muninn-shard
+  replicas: 1
+  selector:
+    matchLabels:
+      app: muninn
+      component: shard
+  template:
+    metadata:
+      labels:
+        app: muninn
+        component: shard
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+        - name: muninn
+          image: muninn:latest
+          ports:
+            - containerPort: 3000
+              name: rest
+            - containerPort: 50051
+              name: grpc
+            - containerPort: 9090
+              name: metrics
+            - containerPort: 8080
+              name: health
+          env:
+            - name: MUNINN_REST_PORT
+              value: "3000"
+            - name: MUNINN_GRPC_PORT
+              value: "50051"
+            - name: MUNINN_LOG_LEVEL
+              value: "info"
+            - name: MUNINN_EMBEDDING_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: muninn-secrets
+                  key: embedding-api-key
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+            - name: config
+              mountPath: /etc/muninn
+              readOnly: true
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "250m"
+            limits:
+              memory: "2Gi"
+              cpu: "1000m"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: health
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: health
+            initialDelaySeconds: 5
+            periodSeconds: 10
+      volumes:
+        - name: config
+          configMap:
+            name: muninn-config
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: muninn-shard
+  labels:
+    app: muninn
+    component: shard
+spec:
+  ports:
+    - port: 3000
+      name: rest
+    - port: 50051
+      name: grpc
+    - port: 9090
+      name: metrics
+    - port: 8080
+      name: health
+  selector:
+    app: muninn
+    component: shard
+  clusterIP: None
+# 1788294677
+# 1788294677
+# 1788294677
+# 1788294677
+// commit 94 1788294955094943863
