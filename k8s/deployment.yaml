@@ -1,0 +1,82 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: muninn-api
+  labels:
+    app: muninn
+    component: api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: muninn
+      component: api
+  template:
+    metadata:
+      labels:
+        app: muninn
+        component: api
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+        - name: muninn-api
+          image: muninn:latest
+          ports:
+            - containerPort: 3000
+              name: rest
+            - containerPort: 50051
+              name: grpc
+          env:
+            - name: MUNINN_REST_PORT
+              value: "3000"
+            - name: MUNINN_GRPC_PORT
+              value: "50051"
+            - name: MUNINN_DATA_DIR
+              value: "/tmp/muninn"
+            - name: MUNINN_LOG_LEVEL
+              value: "info"
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "100m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: muninn-api
+  labels:
+    app: muninn
+    component: api
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 3000
+      name: rest
+      targetPort: rest
+    - port: 50051
+      name: grpc
+      targetPort: grpc
+  selector:
+    app: muninn
+    component: api
+# 1788294677
+# 1788294677
+# 1788294677
+// commit 95 1788294955110459733
