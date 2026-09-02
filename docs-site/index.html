@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Muninn - Memory for the Fleet</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="brain-bg">
+        <canvas id="neural-canvas"></canvas>
+    </div>
+
+    <nav class="navbar">
+        <div class="nav-brand">
+            <svg class="nav-logo" viewBox="0 0 40 40" fill="none">
+                <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5"/>
+                <path d="M20 8C14 8 10 14 10 20C10 26 14 32 20 32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <path d="M20 8C26 8 30 14 30 20C30 26 26 32 20 32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                <circle cx="20" cy="14" r="2" fill="currentColor"/>
+                <circle cx="15" cy="20" r="2" fill="currentColor"/>
+                <circle cx="25" cy="20" r="2" fill="currentColor"/>
+                <circle cx="20" cy="26" r="2" fill="currentColor"/>
+                <line x1="20" y1="14" x2="15" y2="20" stroke="currentColor" stroke-width="1"/>
+                <line x1="20" y1="14" x2="25" y2="20" stroke="currentColor" stroke-width="1"/>
+                <line x1="15" y1="20" x2="20" y2="26" stroke="currentColor" stroke-width="1"/>
+                <line x1="25" y1="20" x2="20" y2="26" stroke="currentColor" stroke-width="1"/>
+            </svg>
+            <span>Muninn</span>
+        </div>
+        <div class="nav-links">
+            <a href="#features">Features</a>
+            <a href="#architecture">Architecture</a>
+            <a href="#quickstart">Quick Start</a>
+            <a href="#api">API</a>
+            <a href="https://github.com/swadhinbiswas/muninn" class="nav-btn">GitHub</a>
+        </div>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Production-Grade Multi-Agent Memory</div>
+            <h1>Memory for<br><span class="gradient-text">the Fleet</span></h1>
+            <p class="hero-desc">
+                A persistent, human-memory-inspired memory system for LLM agents.
+                Durable, secure, observable, and explainable.
+            </p>
+            <div class="hero-actions">
+                <a href="#quickstart" class="btn btn-primary">Get Started</a>
+                <a href="#docs" class="btn btn-secondary">Documentation</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-value">1.1ms</span>
+                    <span class="stat-label">Recall Latency</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">3,852</span>
+                    <span class="stat-label">Writes/sec</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-value">421</span>
+                    <span class="stat-label">Commits</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="brain-container">
+                <svg class="brain-svg" viewBox="0 0 400 400">
+                    <defs>
+                        <radialGradient id="brainGlow" cx="50%" cy="50%" r="50%">
+                            <stop offset="0%" stop-color="#6366f1" stop-opacity="0.3"/>
+                            <stop offset="100%" stop-color="#6366f1" stop-opacity="0"/>
+                        </radialGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <circle cx="200" cy="200" r="180" fill="url(#brainGlow)"/>
+                    <g class="brain-nodes" filter="url(#glow)">
+                        <circle cx="200" cy="100" r="8" class="node node-primary"/>
+                        <circle cx="120" cy="150" r="6" class="node node-secondary"/>
+                        <circle cx="280" cy="150" r="6" class="node node-secondary"/>
+                        <circle cx="100" cy="220" r="7" class="node node-primary"/>
+                        <circle cx="300" cy="220" r="7" class="node node-primary"/>
+                        <circle cx="140" cy="300" r="6" class="node node-secondary"/>
+                        <circle cx="260" cy="300" r="6" class="node node-secondary"/>
+                        <circle cx="200" cy="320" r="8" class="node node-primary"/>
+                        <circle cx="160" cy="200" r="5" class="node node-tertiary"/>
+                        <circle cx="240" cy="200" r="5" class="node node-tertiary"/>
+                        <circle cx="200" cy="180" r="10" class="node node-core"/>
+                        <circle cx="200" cy="240" r="9" class="node node-core"/>
+                    </g>
+                    <g class="brain-connections">
+                        <line x1="200" y1="100" x2="120" y2="150" class="connection"/>
+                        <line x1="200" y1="100" x2="280" y2="150" class="connection"/>
+                        <line x1="120" y1="150" x2="100" y2="220" class="connection"/>
+                        <line x1="280" y1="150" x2="300" y2="220" class="connection"/>
+                        <line x1="100" y1="220" x2="140" y2="300" class="connection"/>
+                        <line x1="300" y1="220" x2="260" y2="300" class="connection"/>
+                        <line x1="140" y1="300" x2="200" y2="320" class="connection"/>
+                        <line x1="260" y1="300" x2="200" y2="320" class="connection"/>
+                        <line x1="160" y1="200" x2="200" y2="180" class="connection connection-active"/>
+                        <line x1="240" y1="200" x2="200" y2="180" class="connection connection-active"/>
+                        <line x1="160" y1="200" x2="200" y2="240" class="connection connection-active"/>
+                        <line x1="240" y1="200" x2="200" y2="240" class="connection connection-active"/>
+                        <line x1="200" y1="180" x2="200" y2="240" class="connection connection-active"/>
+                        <line x1="120" y1="150" x2="160" y2="200" class="connection"/>
+                        <line x1="280" y1="150" x2="240" y2="200" class="connection"/>
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </header>
+
+    <section id="features" class="section">
+        <div class="container">
+            <h2>Core Capabilities</h2>
+            <p class="section-desc">Built for production agents that need persistent, secure, explainable memory.</p>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>Memory Tiers</h3>
+                    <p>Working, episodic, semantic, procedural, and shared memory with automatic lifecycle management.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                    </div>
+                    <h3>Anti-Poisoning</h3>
+                    <p>Trust tiers, quarantine, lineage tracking, and blast-radius limiting protect against memory attacks.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                        </svg>
+                    </div>
+                    <h3>Hybrid Retrieval</h3>
+                    <p>Combines vector similarity, keyword search, recency, and importance for optimal recall.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                    </div>
+                    <h3>Explainability</h3>
+                    <p>Full score breakdown for every retrieval. Know why each memory was returned.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                    </div>
+                    <h3>Encryption</h3>
+                    <p>AES-256-GCM encryption at rest with keys from secrets manager.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                        </svg>
+                    </div>
+                    <h3>Observability</h3>
+                    <p>Prometheus metrics, structured logging, and audit trails for compliance.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="architecture" class="section section-dark">
+        <div class="container">
+            <h2>Architecture</h2>
+            <p class="section-desc">Horizontal scaling with tenant-aware sharding and eventual consistency for shared memory.</p>
+            <div class="arch-diagram">
+                <pre class="arch-code">
+    +--------------------------+
+    |    API Gateway / Ingress  |
+    |  authn, rate limiting     |
+    +------------+-------------+
+                 |
+    +------------v-------------+
+    |      Memory Service       |
+    |  stateless, scalable      |
+    +------------+-------------+
+         +------+-------+
+    +----v----+ +----v----+      +----v----+
+    | Shard 0 | | Shard 1 | ...  | Shard N |
+    | (WAL +  | | (WAL +  |      | (WAL +  |
+    |  HNSW + | |  HNSW + |      |  HNSW + |
+    | tantivy)| | tantivy)|      | tantivy)|
+    +---------+ +---------+      +---------+</pre>
+            </div>
+        </div>
+    </section>
+
+    <section id="quickstart" class="section">
+        <div class="container">
+            <h2>Quick Start</h2>
+            <p class="section-desc">Get running in minutes.</p>
+            <div class="code-blocks">
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Install</span>
+                    </div>
+                    <pre><code>cargo add muninn-lib</code></pre>
+                </div>
+                <div class="code-block">
+                    <div class="code-header">
+                        <span class="code-lang">Usage</span>
+                    </div>
+                    <pre><code>use muninn_lib::MuninnMemory;
+
+#[tokio::main]
+async fn main() {
+    let memory = MuninnMemory::new("./data").await.unwrap();
+
+    // Write a memory
+    memory.write("agent-1", "Deadline is March 15", 0.8).await.unwrap();
+
+    // Retrieve memories
+    let results = memory.retrieve("agent-1", "What is the deadline?", 5).await.unwrap();
+
+    for result in &results {
+        println!("{} (score: {:.2})", result.content, result.score);
+    }
+}</code></pre>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="api" class="section section-dark">
+        <div class="container">
+            <h2>API Reference</h2>
+            <p class="section-desc">REST API for server mode, or use the library directly.</p>
+            <div class="api-grid">
+                <div class="api-card">
+                    <span class="api-method post">POST</span>
+                    <span class="api-path">/api/v1/memory/write</span>
+                    <p>Write a memory record</p>
+                </div>
+                <div class="api-card">
+                    <span class="api-method post">POST</span>
+                    <span class="api-path">/api/v1/memory/retrieve</span>
+                    <p>Retrieve matching memories</p>
+                </div>
+                <div class="api-card">
+                    <span class="api-method get">GET</span>
+                    <span class="api-path">/api/v1/memory/{id}</span>
+                    <p>Get a specific record</p>
+                </div>
+                <div class="api-card">
+                    <span class="api-method get">GET</span>
+                    <span class="api-path">/api/v1/memory/{id}/lineage</span>
+                    <p>Trace record lineage</p>
+                </div>
+                <div class="api-card">
+                    <span class="api-method delete">DELETE</span>
+                    <span class="api-path">/api/v1/tenants/{id}/purge</span>
+                    <p>Purge all tenant data</p>
+                </div>
+                <div class="api-card">
+                    <span class="api-method get">GET</span>
+                    <span class="api-path">/api/healthz</span>
+                    <p>Health check</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2>Performance</h2>
+            <p class="section-desc">Measured against published baselines.</p>
+            <div class="perf-grid">
+                <div class="perf-card">
+                    <div class="perf-value">1.1ms</div>
+                    <div class="perf-label">Recall Latency (p99)</div>
+                    <div class="perf-bar"><div class="perf-fill" style="width: 95%"></div></div>
+                </div>
+                <div class="perf-card">
+                    <div class="perf-value">3,852</div>
+                    <div class="perf-label">Writes/sec</div>
+                    <div class="perf-bar"><div class="perf-fill" style="width: 88%"></div></div>
+                </div>
+                <div class="perf-card">
+                    <div class="perf-value">260us</div>
+                    <div class="perf-label">Hot Recall (p99)</div>
+                    <div class="perf-bar"><div class="perf-fill" style="width: 98%"></div></div>
+                </div>
+                <div class="perf-card">
+                    <div class="perf-value">2,024</div>
+                    <div class="perf-label">Mixed Ops/sec</div>
+                    <div class="perf-bar"><div class="perf-fill" style="width: 82%"></div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <svg class="footer-logo" viewBox="0 0 40 40" fill="none">
+                        <circle cx="20" cy="20" r="18" stroke="currentColor" stroke-width="1.5"/>
+                        <path d="M20 8C14 8 10 14 10 20C10 26 14 32 20 32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                        <path d="M20 8C26 8 30 14 30 20C30 26 26 32 20 32" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    </svg>
+                    <span>Muninn</span>
+                </div>
+                <div class="footer-links">
+                    <a href="https://github.com/swadhinbiswas/muninn">GitHub</a>
+                    <a href="#docs">Documentation</a>
+                    <a href="#api">API</a>
+                </div>
+                <div class="footer-copy">
+                    MIT License
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
