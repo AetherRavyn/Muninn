@@ -19,10 +19,3 @@ chrono = { version = "0.4", features = ["serde"] }
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
 thiserror = "2"
-# 1788294676
-// commit 14 1788294953892879400
-// commit 38 1788294954244525551
-// commit 110 1788294955339179448
-// commit 182 1788294956459667720
-// commit 206 1788294956836730017
-// commit 230 1788294957208296667

@@ -16,9 +16,3 @@ muninn-storage = { path = "../muninn-storage" }
 muninn-embedding = { path = "../muninn-embedding" }
 tokio = { version = "1", features = ["full"] }
 tracing = "0.1"
-# 1788294677
-// commit 115 1788294955413958713
-// commit 163 1788294956166841125
-// commit 187 1788294956539888577
-// commit 235 1788294957285813625
-// commit 283 1788294958050177368

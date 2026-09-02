@@ -134,11 +134,3 @@ impl EmbeddingProvider for OpenAiEmbeddingProvider {
         self.embed("health check").await.is_ok()
     }
 }
-# 1788294676
-# 1788294676
-# 1788294676
-# 1788294676
-// commit 136 1788294955753418943
-// commit 160 1788294956122574261
-// commit 328 1788294958736969839
-// commit 352 1788294959121711930

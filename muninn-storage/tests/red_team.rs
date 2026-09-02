@@ -363,16 +363,3 @@ fn test_semantic_corruption_defense() {
     assert!(retrieved.superseded_by.is_none(),
         "Valid fact should not be superseded by untrusted attacker");
 }
-# 1788294676
-# 1788294676
-# 1788294676
-# 1788294676
-# 1788294676
-# 1788294676
-// commit 85 1788294954960699645
-// commit 109 1788294955323431367
-// commit 181 1788294956444197966
-// commit 229 1788294957193733736
-// commit 253 1788294957568008871
-// commit 277 1788294957958345401
-// commit 325 1788294958688479562

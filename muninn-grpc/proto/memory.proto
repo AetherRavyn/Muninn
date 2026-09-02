@@ -1,0 +1,151 @@
+syntax = "proto3";
+
+package muninn;
+
+// Memory service for internal agent-to-agent communication
+service MemoryService {
+  // Write a memory record
+  rpc Write(WriteRequest) returns (WriteResponse);
+
+  // Retrieve memories matching a query
+  rpc Retrieve(RetrieveRequest) returns (RetrieveResponse);
+
+  // Get a record by ID
+  rpc Get(GetRequest) returns (GetResponse);
+
+  // Mark a record as superseded
+  rpc Supersede(SupersedeRequest) returns (SupersedeResponse);
+
+  // Trace lineage of a record
+  rpc TraceLineage(LineageRequest) returns (LineageResponse);
+
+  // Health check
+  rpc Health(HealthRequest) returns (HealthResponse);
+}
+
+message WriteRequest {
+  string tenant_id = 1;
+  string agent_id = 2;
+  string content = 3;
+  float importance = 4;
+  string visibility = 5;  // "private" | "shared"
+  string trust_tier = 6;  // "verified" | "standard" | "untrusted"
+  string tier = 7;        // "episodic" | "semantic" | "procedural" | "shared"
+}
+
+message WriteResponse {
+  string record_id = 1;
+  uint64 wal_offset = 2;
+  string timestamp = 3;
+}
+
+message RetrieveRequest {
+  string tenant_id = 1;
+  string agent_id = 2;
+  string query = 3;
+  uint32 max_results = 4;
+  float min_score = 5;
+  repeated string tiers = 6;
+  string keyword_query = 7;
+}
+
+message RetrieveResponse {
+  repeated ScoredResult results = 1;
+  uint32 total_candidates = 2;
+  uint64 query_time_us = 3;
+}
+
+message ScoredResult {
+  string id = 1;
+  string content = 2;
+  string tier = 3;
+  string trust_tier = 4;
+  float importance = 5;
+  float score = 6;
+  ScoreBreakdown score_breakdown = 7;
+  uint32 rank = 8;
+}
+
+message ScoreBreakdown {
+  float cosine_similarity = 1;
+  float recency_score = 2;
+  float importance_score = 3;
+  float keyword_score = 4;
+  float trust_multiplier = 5;
+  float total_score = 6;
+}
+
+message GetRequest {
+  string id = 1;
+}
+
+message GetResponse {
+  MemoryRecord record = 1;
+}
+
+message MemoryRecord {
+  string id = 1;
+  string tenant_id = 2;
+  string agent_id = 3;
+  string tier = 4;
+  uint32 schema_version = 5;
+  string content = 6;
+  repeated float embedding = 7;
+  string embedding_model_version = 8;
+  float importance = 9;
+  string retention_class = 10;
+  string trust_tier = 11;
+  string created_at = 12;
+  string last_accessed = 13;
+  uint32 access_count = 14;
+  string visibility = 15;
+  repeated string source_ids = 16;
+  optional string superseded_by = 17;
+}
+
+message SupersedeRequest {
+  string record_id = 1;
+  string superseded_by = 2;
+}
+
+message SupersedeResponse {
+  bool success = 1;
+}
+
+message LineageRequest {
+  string record_id = 1;
+}
+
+message LineageResponse {
+  string root_id = 1;
+  uint32 total_downstream_facts = 2;
+  bool affects_shared_memory = 3;
+  bool affects_other_agents = 4;
+  repeated LineageNode nodes = 5;
+  repeated LineageEdge edges = 6;
+}
+
+message LineageNode {
+  string id = 1;
+  string tier = 2;
+  string trust_tier = 3;
+  string content_preview = 4;
+  string agent_id = 5;
+  bool is_superseded = 6;
+}
+
+message LineageEdge {
+  string from = 1;
+  string to = 2;
+  string relationship = 3;
+}
+
+message HealthRequest {}
+
+message HealthResponse {
+  string status = 1;
+  string version = 2;
+  uint64 uptime_seconds = 3;
+  uint64 records_count = 4;
+  uint64 wal_bytes = 5;
+}

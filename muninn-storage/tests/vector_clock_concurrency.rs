@@ -356,12 +356,3 @@ fn test_vector_clock_happens_before() {
     // vc_after happens after vc_before
     assert!(vc_after.get("agent_a") > vc_before.get("agent_a"));
 }
-# 1788294676
-# 1788294676
-# 1788294676
-# 1788294676
-# 1788294676
-# 1788294676
-// commit 86 1788294954976449574
-// commit 134 1788294955718833274
-// commit 302 1788294958330388353

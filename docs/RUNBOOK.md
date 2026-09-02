@@ -132,29 +132,21 @@ curl -X POST https://api.openai.com/v1/embeddings \
 
 ### Steps
 ```bash
-# 1. List available backups
 aws s3 ls s3://muninn-backups/snapshots/ --recursive
 
-# 2. Download latest snapshot
 aws s3 cp s3://muninn-backups/snapshots/latest.tar.gz /tmp/
 
-# 3. Stop the shard
 systemctl stop muninn-shard
 
-# 4. Backup current data (just in case)
 mv /data /data.bak.$(date +%s)
 
-# 5. Extract snapshot
 mkdir -p /data
 tar xzf /tmp/latest.tar.gz -C /data
 
-# 6. Replay any WAL entries after snapshot
 muninn replay-wal --data-dir /data --wal-dir /data/wal
 
-# 7. Start the shard
 systemctl start muninn-shard
 
-# 8. Verify health
 curl http://localhost:8080/healthz
 ```
 
@@ -300,18 +292,3 @@ ls -lhS /data/wal/
 | Availability | 99.9% | < 99.9% monthly |
 | RPO | ≤ 5 min | > 5 min |
 | RTO | ≤ 15 min | > 15 min |
-# 1788294677
-# 1788294677
-# 1788294677
-# 1788294677
-# 1788294677
-# 1788294677
-# 1788294677
-# 1788294677
-// commit 45 1788294954345876883
-// commit 117 1788294955445504781
-// commit 213 1788294956949231303
-// commit 237 1788294957318218030
-// commit 333 1788294958819021606
-// commit 357 1788294959192838541
-// commit 405 1788294959928579445

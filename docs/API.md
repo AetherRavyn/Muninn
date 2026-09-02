@@ -247,15 +247,3 @@ All write operations are idempotent. Retrying the same request will not create d
 ## Schema Versioning
 
 All records carry a `schema_version` field. Migrations are explicit functions that transform records between versions. See `migration.rs` for details.
-# 1788294677
-# 1788294677
-# 1788294677
-# 1788294677
-# 1788294677
-# 1788294677
-// commit 69 1788294954714939061
-// commit 93 1788294955079978177
-// commit 141 1788294955832260524
-// commit 165 1788294956196324211
-// commit 261 1788294957703225842
-// commit 381 1788294959550865324
